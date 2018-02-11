@@ -77,7 +77,7 @@ routes.route('/update/:id').post(function (req, res) {
 
 // Defined delete | remove | destroy route
 routes.route('/delete/:id').get(function (req, res) {
-  Item.findByIdAndRemove(req.params.id, function(err, item){
+  Item.findByIdAndRemove({_id: req.params.id}, function(err, item){
 		if(err) res.json(err);
 		else res.json('Successfully removed');
 	});
