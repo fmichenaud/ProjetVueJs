@@ -1,7 +1,12 @@
 <template>
     <v-container grid-list-md text-xs-center>
+                <v-text-field 
+                  v-model="search"
+                  placeholder="search for a movie"
+                ></v-text-field>
+
     <v-layout row wrap>
-    <v-flex xs12 sm3 v-for="item in items" :key="item.id">
+    <v-flex xs12 sm3 v-for="item in filteredMovies" :key="item.id">
       <v-card hover="true" >
         <v-card-media src="https://cdn.empireonline.com/jpg/80/0/0/1000/563/0/north/0/0/0/0/0/t/films/27205/images/s2bT29y0ngXxxu2IA8AOzzXTRhd.jpg" height="300px">
         </v-card-media>
@@ -25,7 +30,8 @@
     export default {
         data(){
             return{
-                items: []
+                items: [],
+                search: ""
             }
         },
 
@@ -47,6 +53,13 @@
               let uri = 'http://localhost:4000/items/delete/'+id;
               this.items.splice(id, 1);
               this.axios.get(uri);
+            }
+        },
+        computed: {
+            filteredMovies(){
+                return this.items.filter((item) => {
+                    return item.title.match(this.search);
+                });
             }
         }
     }
